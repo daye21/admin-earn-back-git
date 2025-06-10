@@ -1,0 +1,421 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenAPI definition",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "tags": [
+    {
+      "name": "customer-problem",
+      "description": "고객문의"
+    }
+  ],
+  "paths": {
+    "/api/v1/customer/problem-mgmt/customer-problem": {
+      "get": {
+        "tags": [
+          "customer-problem"
+        ],
+        "summary": "고객접수문의 리스트 조회",
+        "description": "입력조건에 따라 접수된 고객 문의 리스트를 조회한다.",
+        "operationId": "getCustomerProblemRegistList",
+        "parameters": [
+          {
+            "name": "problemCode",
+            "in": "query",
+            "description": "문의코드. 0001 - 사용요금관련, 0002 - 통화품질관련, 0003 - 대리점 서비스 관련, 0004 - 해외 로밍 관련",
+            "required": false,
+            "schema": {
+              "pattern": "^000[1-4]$",
+              "type": "string",
+              "description": "문의코드. 0001 - 사용요금관련, 0002 - 통화품질관련, 0003 - 대리점 서비스 관련, 0004 - 해외 로밍 관련",
+              "example": "0001"
+            },
+            "example": "0001"
+          },
+          {
+            "name": "agentRegionCode",
+            "in": "query",
+            "description": "담당지역코드. 01 - 서울, 02 - 경기, 03 - 인천",
+            "required": false,
+            "schema": {
+              "pattern": "^0[1-3]$",
+              "type": "string",
+              "description": "담당지역코드. 01 - 서울, 02 - 경기, 03 - 인천",
+              "example": "01"
+            },
+            "example": "01"
+          },
+          {
+            "name": "progressStatusCode",
+            "in": "query",
+            "description": "진행상태코드. 01 - 성공, 02 - 대기",
+            "required": false,
+            "schema": {
+              "pattern": "^0[1-2]$",
+              "type": "string",
+              "description": "진행상태코드. 01 - 성공, 02 - 대기",
+              "example": "01"
+            },
+            "example": "01"
+          },
+          {
+            "name": "requestFilter",
+            "in": "query",
+            "description": "요청필터",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "요청필터",
+              "example": "샘플"
+            },
+            "example": "샘플"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CustomerProblemRegistResDTO"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "접속 권한이 없습니다.",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CustomerProblemRegistResDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "customer-problem"
+        ],
+        "summary": "고객접수문의 신규 등록",
+        "description": "입력조건에 따라 접수된 고객 문의 정보를 신규 등록 한다.",
+        "operationId": "addCustomerProblemRegist",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerProblemRegistReqDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "OK"
+          },
+          "403": {
+            "description": "접속 권한이 없습니다."
+          }
+        }
+      }
+    },
+    "/api/v1/customer/problem-mgmt/customer-problem/{id}": {
+      "get": {
+        "tags": [
+          "customer-problem"
+        ],
+        "summary": "고객접수문의 상세 조회",
+        "description": "입력조건에 따라 접수된 고객 문의 상세 정보를 조회한다.",
+        "operationId": "getCustomerProblemRegistDetail",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "접수ID",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "description": "접수ID",
+              "example": 1371
+            },
+            "example": 1371
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerProblemRegistDetailInfoResDTO"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "접속 권한이 없습니다.",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerProblemRegistDetailInfoResDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "customer-problem"
+        ],
+        "summary": "고객접수문의 삭제",
+        "description": "입력조건에 따라 접수된 고객 문의 정보를 삭제한다.",
+        "operationId": "deleteCustomerProblemRegist",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "접수ID",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "description": "접수ID",
+              "example": 1371
+            },
+            "example": 1371
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "OK"
+          },
+          "403": {
+            "description": "접속 권한이 없습니다."
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "customer-problem"
+        ],
+        "summary": "고객접수문의 변경",
+        "description": "입력조건에 따라 접수된 고객 문의 정보를 변경 한다.",
+        "operationId": "modifyCustomerProblemRegist",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "접수ID",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "description": "접수ID",
+              "example": 1371
+            },
+            "example": 1371
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerProblemRegistReqDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "OK"
+          },
+          "403": {
+            "description": "접속 권한이 없습니다."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CustomerProblemRegistReqDTO": {
+        "type": "object",
+        "properties": {
+          "customerName": {
+            "type": "string",
+            "description": "고객명",
+            "example": "홍길동"
+          },
+          "customerMobile": {
+            "type": "string",
+            "description": "고객휴대폰번호",
+            "example": "01098765432"
+          },
+          "requestDesc": {
+            "type": "string",
+            "description": "요청설명",
+            "example": "요청설명 샘플"
+          },
+          "problemCode": {
+            "type": "string",
+            "description": "문의코드(문의코드. 0001 - 사용요금관련, 0002 - 통화품질관련, 0003 - 대리점 서비스 관련, 0004 - 해외 로밍 관련)",
+            "example": "01"
+          },
+          "problemDegree": {
+            "type": "number",
+            "description": "고객불만게이지(1~100)",
+            "example": 1
+          },
+          "progressStatusCode": {
+            "type": "string",
+            "description": "처리상태코드",
+            "example": "01"
+          },
+          "testID": {
+            "type": "string",
+            "description": "테스트ID",
+            "example": "hongkildong"
+          }
+        }
+      },
+      "CustomerProblemRegistResDTO": {
+        "type": "object",
+        "properties": {
+          "regId": {
+            "type": "string",
+            "description": "등록ID",
+            "example": "1"
+          },
+          "custNm": {
+            "type": "string",
+            "description": "고객명",
+            "example": "홍길동"
+          },
+          "custMbl": {
+            "type": "string",
+            "description": "고객휴대폰번호",
+            "nullable": true,
+            "example": "01098765432"
+          },
+          "reqDesc": {
+            "type": "string",
+            "description": "요청설명",
+            "example": "샘플요청설명입니다."
+          },
+          "prbmCd": {
+            "type": "string",
+            "description": "문의코드. 0001 - 사용요금관련, 0002 - 통화품질관련, 0003 - 대리점 서비스 관련, 0004 - 해외 로밍 관련",
+            "example": "0001"
+          },
+          "prbmDgr": {
+            "type": "string",
+            "description": "담당지역코드. 01 - 서울, 02 - 경기, 03 - 인천",
+            "example": "01"
+          },
+          "prgsSts": {
+            "type": "string",
+            "description": "진행상태코드. 01 - 성공, 02 - 대기",
+            "example": "01"
+          },
+          "prgsStsVal": {
+            "type": "string",
+            "description": "진행상태값. Success or Hold",
+            "example": "Success"
+          },
+          "crteDttm": {
+            "type": "string",
+            "description": "생성일시",
+            "example": "2025-03-19T16:45:29"
+          },
+          "agntIcn": {
+            "type": "string",
+            "description": "담당자아이콘",
+            "example": "1,2"
+          }
+        }
+      },
+      "CustomerProblemMappingAgentResDTO": {
+        "type": "object",
+        "properties": {
+          "agntNm": {
+            "type": "string",
+            "description": "담당자명",
+            "example": "홍길순"
+          },
+          "agntRegnCd": {
+            "type": "string",
+            "description": "담당지역코드. 01 - 서울, 02 - 경기, 03 - 인천",
+            "example": "01"
+          },
+          "agentRegnVal": {
+            "type": "string",
+            "description": "담당지역명",
+            "example": "서울"
+          }
+        },
+        "description": "고객불만매핑에이전트"
+      },
+      "CustomerProblemRegistDetailInfoResDTO": {
+        "type": "object",
+        "properties": {
+          "customerProblemResistResDTO": {
+            "$ref": "#/components/schemas/CustomerProblemResistResDTO"
+          },
+          "customerProblemMappingAgentResDTO": {
+            "type": "array",
+            "description": "고객불만매핑에이전트",
+            "items": {
+              "$ref": "#/components/schemas/CustomerProblemMappingAgentResDTO"
+            }
+          }
+        }
+      },
+      "CustomerProblemResistResDTO": {
+        "type": "object",
+        "properties": {
+          "custNm": {
+            "type": "string",
+            "description": "고객명",
+            "example": "홍길동"
+          },
+          "reqDesc": {
+            "type": "string",
+            "description": "요청설명",
+            "example": "요청설명 샘플"
+          },
+          "custMbl": {
+            "type": "string",
+            "description": "고객휴대폰번호",
+            "example": "01098761234"
+          },
+          "prgsSts": {
+            "type": "string",
+            "description": "진행상태코드. 01 - 성공, 02 - 대기",
+            "example": "01"
+          },
+          "crteDttm": {
+            "type": "string",
+            "description": "생성일시",
+            "example": "2024-03-27T01:01:04.132"
+          }
+        },
+        "description": "고객불만응답"
+      }
+    }
+  }
+}
